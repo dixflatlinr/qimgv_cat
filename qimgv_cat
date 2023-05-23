@@ -39,7 +39,10 @@ def move_image(cat, img):
     dirDest = os.path.join(os.path.dirname(img), cat)
     fnImage = os.path.basename(img)
 
-    os.makedirs(dirDest, mode=0o775, exist_ok=True)#exceptionne?
+    try:
+        os.makedirs(dirDest, mode=0o775, exist_ok=True)
+    except PermissionError:
+        x(f'Cannot create directory {dirDest}! Permission error!',1)
 
     fnTarget = os.path.join(dirDest, fnImage)
     #file exists @ desto, so add a random subfix
@@ -49,8 +52,7 @@ def move_image(cat, img):
     try:
         os.rename(img, fnTarget)
     except PermissionError:
-        print('File cannot be moved! Permission error!')
-        exit(1)
+        x('File cannot be moved! Permission error!',1)
 
 def binaryExists(filename):
     fn = shlex.quote(filename)
