@@ -59,11 +59,11 @@ def binaryExists(filename):
     result = subprocess.run(f'command -v {fn}', shell=True, stdout=subprocess.PIPE)
     return not bool(result.returncode)
 
-def sendNotify(msg):
+def sendNotify(msg, errorLevel='normal', timeout=3000):
     #title = shlex.quote(title)
     msg = shlex.quote(msg)
 
-    result = subprocess.run(f'notify-send -u critical -a qimgv_cat -t 3000 -i error qimgv_cat {msg}', shell=True, stdout=subprocess.PIPE)
+    result = subprocess.run(f'notify-send -u {errorLevel} -a qimgv_cat -t {timeout} -i error qimgv_cat {msg}', shell=True, stdout=subprocess.PIPE)
 
 def x(str, code, priority = syslog.LOG_ERR, prefix='Error: '):
     msg = prefix + str
